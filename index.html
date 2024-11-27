@@ -1,15 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Risk Game</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body>
-    <div id="root"></div>
-    <script src="main.js"></script>
-</body>
-</html>
+import { useState } from 'react';
+
+const RiskGame = () => {
+  const [page, setPage] = useState('choice');
+
+  const takeRisk = () => {
+    const won = Math.random() < 0.5;
+    setPage(won ? 'win' : 'lose');
+  };
+
+  if (page === 'safe') {
+    return (
+      <div className="max-w-md mx-auto p-6 text-center space-y-6">
+        <h1 className="text-2xl font-bold">Your Result</h1>
+        <div className="p-6 border rounded-lg bg-white space-y-4">
+          <p className="text-xl">You kept your 100 points!</p>
+          <p>You played it safe and kept your initial balance.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (page === 'win') {
+    return (
+      <div className="max-w-md mx-auto p-6 text-center space-y-6">
+        <h1 className="text-2xl font-bold">Your Result</h1>
+        <div className="p-6 border rounded-lg bg-green-50 space-y-4">
+          <p className="text-xl font-bold text-green-600">You Won!</p>
+          <p className="text-green-600">New balance: 200 points</p>
+          <p>You took a risk and it paid off.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (page === 'lose') {
+    return (
+      <div className="max-w-md mx-auto p-6 text-center space-y-6">
+        <h1 className="text-2xl font-bold">Your Result</h1>
+        <div className="p-6 border rounded-lg bg-red-50 space-y-4">
+          <p className="text-xl font-bold text-red-600">You Lost!</p>
+          <p className="text-red-600">New balance: 50 points</p>
+          <p>You took a risk and it didn't work out this time.</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-md mx-auto p-6 text-center space-y-6">
+      <h1 className="text-2xl font-bold">Risk Game</h1>
+      <div className="space-y-6">
+        <p className="text-lg">You have 100 points. Choose:</p>
+        <div className="space-y-4">
+          <button 
+            onClick={() => setPage('safe')}
+            className="w-full p-4 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+          >
+            Play it Safe (Keep 100 points)
+          </button>
+          <button 
+            onClick={takeRisk}
+            className="w-full p-4 text-lg rounded-lg bg-red-500 text-white hover:bg-red-600"
+          >
+            Take a Risk (50/50 chance: +100 or -50)
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RiskGame;
